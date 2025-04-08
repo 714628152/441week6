@@ -1,0 +1,48 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Display</title>
+    <style>
+        .product {
+            border: 1px solid #ddd;
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .product img {
+            max-width: 100px;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+    <div id="product-output"></div>
+
+    <script>
+        fetch('https://hplussport.com/api/products')
+            .then(function(response) {
+                return response.json();
+            })
+            .then(function(jsonData) {
+                const outputElement = document.getElementById('product-output');
+                jsonData.forEach(product => {
+                    const productDiv = document.createElement('div');
+                    productDiv.className = 'product';
+                    productDiv.innerHTML = `
+                        <h3>${product.name}</h3>
+                        <p>${product.description}</p>
+                        <p>Price: $${product.price}</p>
+                        <img src="${product.image}" alt="${product.image_title}">
+                    `;
+                    outputElement.appendChild(productDiv);
+                });
+            })
+            .catch(function(error) {
+                console.error('Error:', error);
+            });
+    </script>
+</body>
+</html>
